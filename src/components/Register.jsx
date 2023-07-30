@@ -17,13 +17,13 @@ export default function Register({onRegister}) {
         });
     }
 
-    useEffect(() => {
+    /* useEffect(() => {
 
         setValues({
             email: values.email,
             password: values.password
         })
-    }, [])
+    }, []) */
 
     return (
 

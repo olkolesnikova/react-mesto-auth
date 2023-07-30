@@ -18,6 +18,7 @@ import * as auth from '../utils/auth';
 import InfoTooltip from './InfoTooltip';
 
 
+
 function App() {
 
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -33,6 +34,7 @@ function App() {
 
     const [loggedIn, setLoggedIn] = useState(false);
     const [isSuccessRegistration, setIsSuccessRegistration] = useState(false);
+    const [userEmail, setUserEmail] = useState('');
 
     const navigate = useNavigate();
 
@@ -210,6 +212,31 @@ function App() {
             .catch(console.error);
     }
 
+    useEffect(() => {
+        tokenCheck();
+    }, [])
+
+
+    const tokenCheck = () => {
+
+        const jwt = localStorage.getItem('jwt');
+        console.log(jwt);
+
+        if (jwt) {
+            auth.getContent(jwt).then((res) => {
+                if (res) {
+                    const userEmail = {
+                        email: res.email
+                    }
+                    setLoggedIn(true);
+                    setUserEmail(userEmail);
+                    navigate('/');
+                }
+            });
+        }
+
+    }
+
     function handleRegister({ email, password }) {
 
         auth.register({ email, password })
@@ -218,17 +245,38 @@ function App() {
                     setIsInfoTooltipOpen(true);
                     setIsSuccessRegistration(false)
                     console.log(res);
-                    return res;
+                    return res.data;
                 }
                 else {
                     setIsInfoTooltipOpen(true);
                     setIsSuccessRegistration(true);
-                    navigate('/login');
+
+                    console.log(res);
+                    navigate('/signin');
                 }
 
             })
 
     }
+
+    function handleLogin({ email, password }) {
+
+        if (!email || !password) return;
+
+        
+
+        auth.authorize({ email, password })
+            .then((data) => {
+                console.log(data.token);
+                if (data.token) {
+                    
+                    setLoggedIn(true);
+                    navigate('/');
+                }
+            })
+
+    }
+
 
 
     return (
@@ -237,16 +285,13 @@ function App() {
 
             <div className="page">
 
-
                 <Routes>
 
-                    <Route path="*" element={loggedIn ? <Navigate to="/" /> : <Navigate to="/login" />} />
-
-                    <Route path="/login" element={<Login />} />
+                    <Route path="/signin" element={<Login onLogin={handleLogin} tokenCheck={tokenCheck} />} />
                     <Route path="/signup" element={<Register onRegister={handleRegister} />} />
                     <Route path="/" element={
-                        <ProtectedRoute
-                            element={<Main
+                        <ProtectedRoute loggedIn={loggedIn} >
+                            <Main
                                 onEditProfile={handleEditProfileClick}
                                 onAddPlace={handleAddPlaceClick}
                                 onEditAvatar={handleEditAvatarClick}
@@ -255,55 +300,54 @@ function App() {
                                 onCardDelete={handleCardDelete}
                                 cards={cards}
                             />
-                            }
-                            loggedIn={loggedIn}
-
-                        />
+                            <Footer />
+                        </ProtectedRoute>
                     } />
 
                 </Routes>
 
-                {loggedIn && <Footer />}
-
-
-                <EditProfilePopup
-                    isOpen={isEditProfilePopupOpen}
-                    onClose={closeAllPopups}
-                    onUpdateUser={handleUpdateUser}
-                    isLoading={isLoading}
-                />
-
-                <EditAvatarPopup
-                    isOpen={isEditAvatarPopupOpen}
-                    onClose={closeAllPopups}
-                    onUpdateAvatar={handleUpdateAvatar}
-                    isLoading={isLoading}
-                />
-
-                <AddPlacePopup
-                    isOpen={isAddPlacePopupOpen}
-                    onClose={closeAllPopups}
-                    onAddPlace={handleAddPlaceSubmit}
-                    isLoading={isLoading}
-                />
-
-                <InfoTooltip
-                    isOpen={isInfoTooltipOpen}
-                    onClose={closeAllPopups}
-                    isSuccesRegistration={isSuccessRegistration}
-                />
-
-                <PopupWithForm name="popup-with-confirmation" title="Вы уверены?" formName="popup-with-confirmation">
-
-                    <button type="submit" className="popup__submit">Да</button>
-
-                </PopupWithForm>
-
-                <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-
-
+                
 
             </div>
+
+            <EditProfilePopup
+                isOpen={isEditProfilePopupOpen}
+                onClose={closeAllPopups}
+                onUpdateUser={handleUpdateUser}
+                isLoading={isLoading}
+            />
+
+            <EditAvatarPopup
+                isOpen={isEditAvatarPopupOpen}
+                onClose={closeAllPopups}
+                onUpdateAvatar={handleUpdateAvatar}
+                isLoading={isLoading}
+            />
+
+            <AddPlacePopup
+                isOpen={isAddPlacePopupOpen}
+                onClose={closeAllPopups}
+                onAddPlace={handleAddPlaceSubmit}
+                isLoading={isLoading}
+            />
+
+            <InfoTooltip
+                isOpen={isInfoTooltipOpen}
+                onClose={closeAllPopups}
+                isSuccesRegistration={isSuccessRegistration}
+            />
+
+            <PopupWithForm name="popup-with-confirmation" title="Вы уверены?" formName="popup-with-confirmation">
+
+                <button type="submit" className="popup__submit">Да</button>
+
+            </PopupWithForm>
+
+            <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+
+
+
+
         </CurrentUserContext.Provider>
 
     );

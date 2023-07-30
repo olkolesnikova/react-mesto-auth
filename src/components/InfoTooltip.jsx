@@ -1,4 +1,3 @@
-import PopupWithForm from "./PopupWithForm";
 import resultImageSuccess from "../images/Union.png"
 import resultImage from "../images/UnionRed.png"
 import { usePopupClose } from "./hooks/usePopupClose";
