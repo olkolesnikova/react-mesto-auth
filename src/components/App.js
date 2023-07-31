@@ -217,17 +217,17 @@ function App() {
     const tokenCheck = () => {
 
         const jwt = localStorage.getItem('jwt');
-        console.log(jwt);
 
         if (jwt) {
-            auth.getContent(jwt).then((data) => {
-            
+            auth.getContent(jwt)
+                .then((data) => {
+
                     setLoggedIn(true);
-                    setUserEmail(data.email);
-                    navigate('/');                    
-                
-            })
-            .catch(console.error)
+                    setUserEmail(data.data.email);
+                    navigate('/');
+
+                })
+                .catch(console.error)
         }
 
     }
@@ -260,12 +260,11 @@ function App() {
 
         auth.authorize({ email, password })
             .then((data) => {
-                console.log(data.token);
-                
+                if (data) {
                     setUserEmail(email);
                     setLoggedIn(true);
                     navigate('/');
-                
+                }
             })
             .catch(console.error)
     }

@@ -8,7 +8,7 @@ export default function AddPopupPlace({ isOpen, onClose, onAddPlace, isLoading }
     /* const [name, setName] = useState('');
     const [link, setLink] = useState(''); */
 
-    const {values, handleChange, setValues} = useForm({});
+    const {values, handleChange, setValues} = useForm({name: "", link: ""});
 
     usePopupClose(isOpen, onClose);
 
@@ -32,7 +32,7 @@ export default function AddPopupPlace({ isOpen, onClose, onAddPlace, isLoading }
 
     useEffect(() => {
         
-        setValues('');
+        setValues({name: "", link: ""});
 
     }, [isOpen]);
 
@@ -48,12 +48,12 @@ export default function AddPopupPlace({ isOpen, onClose, onAddPlace, isLoading }
                 placeholder="Название"
                 minLength={2}
                 maxLength={30}
-                value={values.name || ''}
+                value={values.name}
                 onChange={handleChange} />
             <span className="title-error popup__input-error"></span>
             <input id="link" type="url" name="link" className="popup__input popup__input_type_link"
                 placeholder="Ссылка на картинку"
-                value={values.link || ''}
+                value={values.link}
                 onChange={handleChange}
                 required />
             <span className="link-error popup__input-error"></span>

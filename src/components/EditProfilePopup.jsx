@@ -7,7 +7,7 @@ import { useForm } from "./hooks/useForm";
 export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
 
     const currentUser = useContext(CurrentUserContext);
-    const {values, handleChange, setValues} = useForm({});
+    const {values, handleChange, setValues} = useForm({name: "", description: ""});
 
     /* const [name, setName] = useState(null);
     const [description, setDescription] = useState(null); */
