@@ -3,9 +3,9 @@ import { Link } from "react-router-dom"
 import { useForm } from "./hooks/useForm"
 import { useEffect } from "react";
 
-export default function Register({onRegister}) {
+export default function Register({ onRegister }) {
 
-    const {values, handleChange, setValues} = useForm({ });
+    const { values, handleChange, setValues } = useForm({});
 
     function handleSubmit(event) {
 
@@ -28,7 +28,14 @@ export default function Register({onRegister}) {
     return (
 
         <>
-            <Header linkText={'Войти'} />
+
+            <Header>
+                <Link to='/signin' className="header__link">Вход</Link>
+
+            </Header>
+
+
+
             <div className="login">
                 <div className="login__container page__login">
                     <h1 className="login__title">Регистрация</h1>

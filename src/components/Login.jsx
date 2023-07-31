@@ -4,7 +4,7 @@ import { useForm } from "./hooks/useForm"
 
 export default function Login({ onLogin }) {
 
-    const {values, handleChange, setValues} = useForm({ });
+    const { values, handleChange, setValues } = useForm({});
 
     function handleSubmit(event) {
 
@@ -20,7 +20,10 @@ export default function Login({ onLogin }) {
     return (
 
         <>
-            <Header />
+            <Header>
+                <Link to='/signup' className="header__link">Регистрация</Link>
+
+            </Header>
 
             <div className="login__container page__login">
                 <h1 className="login__title">Вход</h1>

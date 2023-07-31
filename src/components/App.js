@@ -1,5 +1,4 @@
 import '../../src/index.css';
-import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
@@ -10,14 +9,12 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
-import { BrowserRouter, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
+import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
 import ProtectedRoute from './ProtectedRoute';
 import * as auth from '../utils/auth';
 import InfoTooltip from './InfoTooltip';
-
-
 
 function App() {
 
@@ -223,14 +220,13 @@ function App() {
         console.log(jwt);
 
         if (jwt) {
-            auth.getContent(jwt).then((res) => {
-                if (res) {
-                    const userEmail = {
-                        email: res.email
-                    }
+            auth.getContent(jwt).then((data) => {
+                if (data) {
+
                     setLoggedIn(true);
-                    setUserEmail(userEmail);
+                    setUserEmail(data.email);
                     navigate('/');
+                    console.log(data.email);
                 }
             });
         }
@@ -256,25 +252,30 @@ function App() {
                 }
 
             })
-
+            .catch(console.error)
     }
 
     function handleLogin({ email, password }) {
 
         if (!email || !password) return;
 
-        
+
 
         auth.authorize({ email, password })
             .then((data) => {
                 console.log(data.token);
                 if (data.token) {
-                    
+                    setUserEmail(email);
                     setLoggedIn(true);
                     navigate('/');
                 }
             })
 
+    }
+
+    function handleSignOut() {
+
+        localStorage.removeItem('jwt');
     }
 
 
@@ -290,7 +291,8 @@ function App() {
                     <Route path="/signin" element={<Login onLogin={handleLogin} tokenCheck={tokenCheck} />} />
                     <Route path="/signup" element={<Register onRegister={handleRegister} />} />
                     <Route path="/" element={
-                        <ProtectedRoute loggedIn={loggedIn} >
+                        <ProtectedRoute loggedIn={loggedIn}>
+
                             <Main
                                 onEditProfile={handleEditProfileClick}
                                 onAddPlace={handleAddPlaceClick}
@@ -299,6 +301,8 @@ function App() {
                                 onCardLike={handleCardLike}
                                 onCardDelete={handleCardDelete}
                                 cards={cards}
+                                userEmail={userEmail}
+                                onSignOut={handleSignOut}
                             />
                             <Footer />
                         </ProtectedRoute>
@@ -306,7 +310,7 @@ function App() {
 
                 </Routes>
 
-                
+
 
             </div>
 
