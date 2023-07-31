@@ -10,10 +10,10 @@ export const register = ({ email, password }) => {
             'Content-Type': 'application/json'
         },
         body:
-            JSON.stringify({email, password})
+            JSON.stringify({ email, password })
     })
         .then((res) => {
-            return res;
+            return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
         })
         .catch(console.error);
 
@@ -28,24 +28,18 @@ export const authorize = ({ email, password }) => {
             'Content-Type': 'application/json'
         },
         body:
-            JSON.stringify({email, password})
+            JSON.stringify({ email, password })
     })
-        .then((response) => {
-            return response.json();
+        .then((res) => {
+            return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
         })
         .then((data) => {
-            
-            if(data.token) {
-                localStorage.setItem('jwt', data.token);
-                console.log(data.token);
-                return data;
-            }
-                
+
+            localStorage.setItem('jwt', data.token);
+            return data;
 
         })
         .catch(console.error)
-
-
 }
 
 export const getContent = (token) => {
@@ -56,5 +50,9 @@ export const getContent = (token) => {
             'Authorization': `Bearer ${token}`,
         }
     })
-    .then((res) => res.json())
+    .then((res) => {
+        return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
+    })
+    
+    .catch(console.error)
 }

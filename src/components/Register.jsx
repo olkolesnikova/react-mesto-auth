@@ -45,12 +45,14 @@ export default function Register({ onRegister }) {
                             maxLength={30}
                             value={values.email || ''}
                             onChange={handleChange}
+                            required
                         />
                         <input id="password" type="password" name="password" className="popup__input popup__input_type_login"
                             placeholder="Пароль" minLength={2}
                             maxLength={30}
                             value={values.password}
                             onChange={handleChange}
+                            required
                         />
                         <button type="submit" className="popup__submit popup__submit-login">Зарегистрироваться</button>
                     </form>

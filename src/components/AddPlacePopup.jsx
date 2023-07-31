@@ -45,15 +45,17 @@ export default function AddPopupPlace({ isOpen, onClose, onAddPlace, isLoading }
             buttonText={isLoading ? 'Сохранение...' : 'Сохранить'}>
 
             <input id="title" type="text" name="name" className="popup__input popup__input_type_title"
-                placeholder="Название" minLength={2}
+                placeholder="Название"
+                minLength={2}
                 maxLength={30}
                 value={values.name || ''}
                 onChange={handleChange} />
             <span className="title-error popup__input-error"></span>
             <input id="link" type="url" name="link" className="popup__input popup__input_type_link"
-                placeholder="Ссылка на картинку" required
+                placeholder="Ссылка на картинку"
                 value={values.link || ''}
-                onChange={handleChange} />
+                onChange={handleChange}
+                required />
             <span className="link-error popup__input-error"></span>
 
 

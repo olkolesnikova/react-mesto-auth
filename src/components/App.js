@@ -221,14 +221,13 @@ function App() {
 
         if (jwt) {
             auth.getContent(jwt).then((data) => {
-                if (data) {
-
+            
                     setLoggedIn(true);
                     setUserEmail(data.email);
-                    navigate('/');
-                    console.log(data.email);
-                }
-            });
+                    navigate('/');                    
+                
+            })
+            .catch(console.error)
         }
 
     }
@@ -259,18 +258,16 @@ function App() {
 
         if (!email || !password) return;
 
-
-
         auth.authorize({ email, password })
             .then((data) => {
                 console.log(data.token);
-                if (data.token) {
+                
                     setUserEmail(email);
                     setLoggedIn(true);
                     navigate('/');
-                }
+                
             })
-
+            .catch(console.error)
     }
 
     function handleSignOut() {
@@ -288,7 +285,7 @@ function App() {
 
                 <Routes>
 
-                    <Route path="/signin" element={<Login onLogin={handleLogin} tokenCheck={tokenCheck} />} />
+                    <Route path="/signin" element={<Login onLogin={handleLogin} />} />
                     <Route path="/signup" element={<Register onRegister={handleRegister} />} />
                     <Route path="/" element={
                         <ProtectedRoute loggedIn={loggedIn}>

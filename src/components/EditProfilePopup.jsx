@@ -48,13 +48,17 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoad
                 placeholder='Имя'
                 value={values.name || ''}
                 onChange={handleChange}
+                minLength={2}
+                maxLength={30}
                 required />
             <span className="profile-name-error popup__input-error"></span>
             <input id="description" type="text" name="description"
                 className="popup__input popup__input_type_description"
                 placeholder='О себе'
                 value={values.description || ''}
-                onChange={handleChange} 
+                onChange={handleChange}
+                minLength={2}
+                maxLength={30}
                 required/>
                 
             <span className="description-error popup__input-error"></span>
