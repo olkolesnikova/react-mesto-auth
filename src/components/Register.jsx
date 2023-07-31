@@ -1,11 +1,11 @@
 import Header from "./Header"
 import { Link } from "react-router-dom"
 import { useForm } from "./hooks/useForm"
-import { useEffect } from "react";
+import AuthorizationForm from "./AuthorizationForm";
 
 export default function Register({ onRegister }) {
 
-    const { values, handleChange, setValues } = useForm({});
+    const { values, handleChange, setValues } = useForm({email: "", password: ""});
 
     function handleSubmit(event) {
 
@@ -17,14 +17,6 @@ export default function Register({ onRegister }) {
         });
     }
 
-    /* useEffect(() => {
-
-        setValues({
-            email: values.email,
-            password: values.password
-        })
-    }, []) */
-
     return (
 
         <>
@@ -33,8 +25,6 @@ export default function Register({ onRegister }) {
                 <Link to='/signin' className="header__link">Вход</Link>
 
             </Header>
-
-
 
             <div className="login">
                 <div className="login__container page__login">
@@ -59,12 +49,6 @@ export default function Register({ onRegister }) {
                     <p className="login__link-bottom">Уже зарегистрированы? <Link to="/login" className="login__link-bottom">Войти</Link></p>
                 </div>
             </div>
-
-
-
         </>
-
-
     )
-
 }

@@ -1,10 +1,11 @@
 import Header from "./Header"
 import { Link } from "react-router-dom"
 import { useForm } from "./hooks/useForm"
+import AuthorizationForm from "./AuthorizationForm";
 
 export default function Login({ onLogin }) {
 
-    const { values, handleChange, setValues } = useForm({});
+    const { values, handleChange, setValues } = useForm({email: "", password: ""});
 
     function handleSubmit(event) {
 
@@ -13,8 +14,6 @@ export default function Login({ onLogin }) {
             email: values.email,
             password: values.password
         });
-
-
     }
 
     return (
@@ -47,14 +46,7 @@ export default function Login({ onLogin }) {
                     <button type="submit" className="popup__submit popup__submit-login">Войти</button>
                 </form>
             </div>
-
-
-
         </>
 
-
     )
-
-
-
 }
