@@ -272,6 +272,7 @@ function App() {
     function handleSignOut() {
 
         localStorage.removeItem('jwt');
+        setUserEmail('');
     }
 
 
@@ -285,7 +286,7 @@ function App() {
                 <Routes>
 
                     <Route path="/signin" element={<Login onLogin={handleLogin} />} />
-                    <Route path="/signup" element={<Register onRegister={handleRegister} />} />
+                    <Route path="/signup" element={<Register onLogin={handleRegister} />} />
                     <Route path="/" element={
                         <ProtectedRoute loggedIn={loggedIn}>
 

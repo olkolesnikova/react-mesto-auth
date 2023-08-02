@@ -3,19 +3,17 @@ import { Link } from "react-router-dom"
 import { useForm } from "./hooks/useForm"
 import AuthorizationForm from "./AuthorizationForm";
 
-export default function Register({ onRegister }) {
+export default function Register({ onLogin, buttonText }) {
 
-    const { values, handleChange, setValues } = useForm({email: "", password: ""});
-
-    function handleSubmit(event) {
+    /* function handleSubmit(event) {
 
         event.preventDefault();
 
-        onRegister({
+        onLogin({
             email: values.email,
             password: values.password
         });
-    }
+    } */
 
     return (
 
@@ -29,24 +27,11 @@ export default function Register({ onRegister }) {
             <div className="login">
                 <div className="login__container page__login">
                     <h1 className="login__title">Регистрация</h1>
-                    <form className="popup__form" onSubmit={handleSubmit}>
-                        <input id="email" type="email" name="email" className="popup__input popup__input_type_login"
-                            placeholder="Email" minLength={2}
-                            maxLength={30}
-                            value={values.email || ''}
-                            onChange={handleChange}
-                            required
-                        />
-                        <input id="password" type="password" name="password" className="popup__input popup__input_type_login"
-                            placeholder="Пароль" minLength={2}
-                            maxLength={30}
-                            value={values.password}
-                            onChange={handleChange}
-                            required
-                        />
-                        <button type="submit" className="popup__submit popup__submit-login">Зарегистрироваться</button>
-                    </form>
-                    <p className="login__link-bottom">Уже зарегистрированы? <Link to="/login" className="login__link-bottom">Войти</Link></p>
+                    <AuthorizationForm
+                        onLogin={onLogin}
+                        buttonText={'Зарегистрироваться'}
+                    />
+                    <p className="login__link-bottom">Уже зарегистрированы? <Link to="/signin" className="login__link-bottom">Войти</Link></p>
                 </div>
             </div>
         </>

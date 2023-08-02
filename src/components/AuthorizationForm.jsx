@@ -1,13 +1,21 @@
 import { useForm } from "./hooks/useForm";
 
-export default function AuthorizationForm() {
+export default function AuthorizationForm({onLogin, buttonText}) {
 
-    const { values, handleChange, setValues } = useForm({});
+    const { values, handleChange, setValues } = useForm({email: "", password: ""});
 
+    function handleSubmit(event) {
+
+        event.preventDefault();
+        onLogin({
+            email: values.email,
+            password: values.password
+        });
+    }
     
     return (
 
-        <form className="popup__form">
+        <form className="popup__form" onSubmit={handleSubmit}>
             <input id="email" type="email" name="email" className="popup__input popup__input_type_login"
                 placeholder="Email"
                 minLength={2}
@@ -24,6 +32,7 @@ export default function AuthorizationForm() {
                 onChange={handleChange}
                 required
             />
+            <button type="submit" className="popup__submit popup__submit-login">{buttonText}</button>
         </form>
     )
 
